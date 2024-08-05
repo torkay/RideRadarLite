@@ -1,0 +1,13 @@
+# Virtual environment
+venv/
+
+# Bytecode files
+*.pyc
+*.pyo
+
+# Environment variables
+.env
+
+# IDE files
+.vscode/
+.idea/
