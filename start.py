@@ -4,6 +4,8 @@ import json
 import os
 import time
 import platform
+import re
+import embed
 from rich.console import Console
 from rich.progress import Progress
 from rich.panel import Panel
@@ -49,16 +51,47 @@ class SearchGumtree:
 
     def extract_aria_labels(self, html):
         if self.url == self.new_url:
-            """Extract aria-label attributes from <a> tags."""
+            """Extract and parse aria-label attributes from <a> tags."""
             soup = BeautifulSoup(html, 'html.parser')
             links = soup.find_all('a', attrs={'aria-label': True})
-            return [
-                {
-                    'aria-label': link.get('aria-label'),
-                    'href': "https://www.gumtree.com.au" + link.get('href')  # Assuming href is a relative URL
-                }
-                for link in links
-            ]
+            
+            listings = []
+            for link in links:
+                aria_label = link.get('aria-label')
+                href = "https://www.gumtree.com.au" + link.get('href')
+
+                # Find the img element within the current link
+                img = link.find('img', class_='carousel__image image image--is-visible')
+                img_src = img.get('src') if img else 'N/A'
+                
+                # Regular expression patterns
+                title_pattern = r"^(.*?)(?:\.\n)"
+                price_pattern = r"Price:\s*(.*?)\s*\.\n"
+                location_pattern = r"Location:\s*(.*?)\s*\.\n"
+                date_pattern = r"Ad listed\s*(\d{2}/\d{2}/\d{4})\."
+
+                # Extracting details
+                title_match = re.search(title_pattern, aria_label)
+                price_match = re.search(price_pattern, aria_label)
+                location_match = re.search(location_pattern, aria_label)
+                date_match = re.search(date_pattern, aria_label)
+
+                # Parse results
+                title = title_match.group(1).strip() if title_match else 'N/A'
+                price = price_match.group(1).strip() if price_match else 'N/A'
+                location = location_match.group(1).strip() if location_match else 'N/A'
+                date = date_match.group(1).strip() if date_match else 'N/A'
+
+                listings.append({
+                    'title': title,
+                    'price': price,
+                    'location': location,
+                    'date': date,
+                    'href': href,
+                    'img': img_src
+                })
+            
+            return listings
         else:
             return []
 
@@ -120,6 +153,7 @@ if __name__ == "__main__":
     search = SearchGumtree(verbose=verbose)
     search.print_header()  # Print the header once
     while True:
-        search.main(vehicle_names_file='list.txt', output_file='listings.json')
+        search.main(vehicle_names_file='list.txt', output_file='./storage/listings.json')
         print("Waiting for 6 hours before the next scrape...")
+        embed.main()
         time.sleep(21600)  # Sleep for 6 hours (21600 seconds)
