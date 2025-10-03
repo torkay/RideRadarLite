@@ -1,28 +1,43 @@
+# ⚠️ DEPRECATED ⚠️
 # RideRadarLite
+
 ## Introduction
-RideRadarLite is light-weight alternative to RideRadar.
-The RR-Lite engine is the solution to the constraints of the selenium driver.
-This version will always be open-source and free.
-### Main objective
-* Serviceable on any silicon, specifically `ARM64 Linux`
-* Implement the playwright library rather a selenium-based one
-* Light-weight codebase
-* Reduction of dependency constraints
 
-## How to use
-### Step 1: Import libraries
-    from rideradarlite import start, engine, embed
-### Step 2: Create object
-*Vendors include `Gumtree` and `Facebook` as of version 0.1.0*
+**RideRadarLite** is a lightweight, proprietary scraping engine for the now production RideRadar platform. It was developed as a solution to overcome **operating system constraints** and **brittleness** often associated with Selenium-based web scraping.
 
-    search_facebook = engine.SearchFacebook(verbose=False)
-### Step 3: Print heading (optional)
-    start.print_header()
-### Step 4: Create a work instance from the engine object
-    search_gumtree.main(vehicle_names_file='list.txt', output_file='./storage/listings_gumtree.json')
-*Where `list.txt` is a text list of vehicles, and `listings_gumtree.json` is the result*
-### Step 5: Embed to discord (optional)
-    embed.main(type='gumtree')
+### Key Objectives Achieved
+* Designed for deployment on **lightweight server hardware**, primarily `ARM64 Linux`.
+* Migrated the browser automation foundation from Selenium to the more robust **Playwright** library.
+* Features an **oversimplified, lightweight codebase**.
+* Significantly **reduced external dependency constraints**.
 
-## Full disclosure
-It is important to address that having a third-party web crawl one's information is generally not allowed, high influxes of requests may result in access request suspension or ban.
+## How to Use
+
+### Step 1: Import Modules
+```python
+from rideradarlite import start, engine, embed
+```
+
+### Step 2: Initialize an Engine Object
+*(Supported vendors as of version 0.1.0 include Gumtree and Facebook)*
+```python
+search_facebook = engine.SearchFacebook(verbose=False)
+```
+
+### Step 3: Print Header (Optional)
+```python
+start.print_header()
+```
+### Step 4: Run the Work Instance
+```python
+search_gumtree.main(vehicle_names_file='list.txt', output_file='./storage/listings_gumtree.json')
+```
+*Note: list.txt must contain a text list of vehicles, and the results will be written to listings_gumtree.json*
+
+### Step 5: Embed Results to Discord (Optional)
+```python
+embed.main(type='gumtree')
+```
+
+## Important Disclosure
+Automating browser tasks on a service that prohibits such activity may lead to penalties or service restrictions.
