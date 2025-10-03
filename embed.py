@@ -3,8 +3,8 @@ import requests
 import os
 
 DISCORD_WEBHOOK_URL = {
-    'gumtree': 'https://discord.com/api/webhooks/1270306540401721385/vlQ0e1UlLijiUfzcyjm0thU3EBR4M22o_NqSyGGNHSWsCqI17AstITnyscr_E6ad-a06',
-    'facebook': 'https://discord.com/api/webhooks/1272899520916881410/K4YuW4FPiXBWj6Ht3Rb6sLj-zjB5G6j05oJ8igbHWXmmOYyTku0I5fbL9rqUn2kJ6_QT'
+    'gumtree': '',
+    'facebook': ''
 }
 
 def load_json(filename):
